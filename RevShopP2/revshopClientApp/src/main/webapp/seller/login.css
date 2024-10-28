@@ -1,0 +1,500 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.content-container {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 20px; 
+}
+
+.left-column {
+    flex: 1; 
+    display: flex;
+    justify-content: start-end; 
+}
+
+.form-section {
+    flex: 2; /* Allow the form section to take up two parts of the flex container */
+    max-width: 500px; /* Limit the maximum width of the form section */
+  	margin-right:200px;
+  	margin-top:80px;
+}
+
+
+.progress-indicators {
+    display: flex;
+    justify-content: center; /* Center the indicators */
+    padding: 10px 250px; 
+    margin-bottom: 20px; /* Space below the indicators */
+}
+
+.indicator {
+    text-align: center;
+    flex: 1;
+}
+
+.indicator .tick {
+    font-size: 20px;
+    color: gray;
+    display: block;
+}
+
+.indicator.active .tick {
+    color: black; 
+}
+
+.indicator.completed .tick {
+    color: #ac914a; 
+}
+
+.indicator span {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+    color: gray;
+}
+
+.indicator.active span {
+    font-weight: bold;
+    color: black; 
+}
+
+.indicator.completed span {
+    font-weight: bold;
+    color: #ac914a;
+}
+
+/* Input and Button Styles */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: calc(100% - 60px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.captcha-container {
+    margin-bottom: 15px; /* Add space below the refresh button */
+}
+
+.captcha-container button {
+    background-color: transparent;
+    color: #000000; 
+    cursor: pointer;
+    padding: 0px 22px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin-left: 120px;
+}
+
+
+
+button {
+    width: 89%;
+    padding: 10px;
+    background-color: #ac914a;
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left:10px;
+}
+
+
+.login-link {
+    margin-top: 20px; /* Space above the login link paragraph */
+    font-size: 16px; /* Font size for the text */
+    color: #333; /* Dark grey color for the text */
+    margin-left:70px;
+}
+
+/* Style for the anchor tag within the login-link class */
+.login-link a {
+    color: #007bff; /* Link color */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Make the link text bold */
+    transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+
+/* Enhanced Terms and Conditions Box */
+.checkbox {
+    display: flex;
+    align-items: center; /* Center the checkbox vertically */
+    padding: 1em;
+    margin: 2em 0; /* Space above and below the box */
+    background-color: #f9f9f9; /* Light background */
+    border-radius: 8px; /* Rounded corners */
+    max-width: 800px; /* Max width to match the form */
+    transition: border-color 0.3s ease; /* Smooth border color change */
+}
+
+input[type="checkbox"] {
+    appearance: none; /* Remove default checkbox style */
+    -webkit-appearance: none; /* Remove default checkbox style for Safari */
+    width: 20px; /* Custom size */
+    height: 20px; /* Custom size */
+    border: 2px solid #ccc; /* Border for the checkbox */
+    border-radius: 4px; /* Rounded corners */
+    margin-right: 10px; /* Space between checkbox and label */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+}
+
+input[type="checkbox"]:checked {
+    background-color: #ac914a; /* Background color when checked */
+    border-color: #ac914a; /* Border color when checked */
+    position: relative; /* Positioning for pseudo-element */
+}
+
+input[type="checkbox"]:checked::after {
+    content: '✔'; /* Checkmark */
+    color: #000; /* Checkmark color */
+    font-size: 16px; /* Size of the checkmark */
+    position: absolute; /* Position the checkmark */
+    top: -1px; /* Center vertically */
+    left: 2px; /* Center horizontally */
+}
+
+/* Label Style */
+.checkbox label {
+    font-weight: normal; /* Normal weight for the label */
+    color: #333; /* Darker color for better readability */
+    font-size: 14px; /* Font size */
+}
+
+/* Terms Link */
+.checkbox a {
+    color: #ac914a; /* Link color */
+    text-decoration: none; /* No underline */
+    font-weight: bold; /* Bold link */
+}
+
+.checkbox a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Modal Container */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 10px;
+    width: 100%;
+    height: 30%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 30px;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    max-height: 60vh; 
+    border-radius: 12px;
+    text-align: center;
+    position: relative;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    transition: transform 0.3s ease-in-out;
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Hide scrollbar */
+.modal-content::-webkit-scrollbar {
+    width: 0;
+    background: transparent; /* Hide scrollbar for WebKit browsers */
+}
+
+/* h2 Heading */
+.modal-content h2 {
+    font-size: 12px;
+    color: #333;
+    border-bottom: 2px solid #eee;
+    text-align: justify;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Modal Paragraphs */
+.modal-content p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+.close:hover, .close:focus {
+    color: #000;
+}
+
+/* Agree Button */
+#agreeButton {
+    display: block;
+    margin-top: 20px;
+    background-color: #ac914a;
+    color: white;
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+}
+
+#agreeButton:hover {
+    background-color: #ac914a;
+    transform: translateY(-2px);
+}
+
+#agreeButton:active {
+    transform: translateY(1px);
+}
+
+
+
+/* Modal Overlay */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    overflow: auto;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .modal-content {
+        width: 90%;
+        padding: 20px;
+        max-height: 70vh; /* Adjust max height for mobile */
+    }
+
+    .modal-content h2 {
+        font-size: 18px;
+    }
+
+    .modal-content p {
+        font-size: 14px;
+    }
+
+    #agreeButton {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+
+
+
+.why-sell {
+    padding: 0px;
+    background-color: #f9f9f9; /* Optional background color */
+}
+
+.why-sell h2 {
+	margin-left: 400px;
+	font-size:40px;
+	margin-bottom: 20px;
+}
+.benefits {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: space-between; /* Space items evenly */
+    gap: 20px; /* Space between items */
+    background-color: #cac5b1;
+}
+
+.benefit {
+    flex: 1 1 calc(33.33% - 20px); /* 3 items per row with spacing */
+    box-sizing: border-box; /* Include padding/border in width calculation */
+    padding: 10px; /* Padding around each benefit */
+}
+
+
+.icon-container {
+    margin-right: 15px; /* Space between icon and text */
+}
+
+.circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px; /* Adjust size as needed */
+    height: 50px; /* Adjust size as needed */
+    border-radius: 50%;
+    background-color: #e6f7ff; /* Optional background color for the circle */
+}
+
+h3 {
+    font-size: 18px; /* Adjust as needed */
+    align-items: center;
+	color: #000; /* Optional text color */
+}
+
+p {
+    font-size: 14px; /* Adjust as needed */
+    color: #555; /* Optional text color */
+}
+
+
+.percentage-circle {
+    width: 50px; /* Adjust size as needed */
+    height: 50px; /* Adjust size as needed */
+    border: 2px solid #e1d19d;/* Circle border color */
+    border-radius: 50%; /* Makes it a circle */
+    display: flex; /* Centers the content */
+    justify-content: center; /* Centers the content horizontally */
+    align-items: center; /* Centers the content vertically */
+    background-color: #e1d19d; /* Background color of the circle */
+    margin-right: 15px; /* Space between circle and text */
+}
+
+.percentage-symbol {
+    font-size: 24px; /* Adjust size of the percentage symbol */
+    color: #000; /* Color of the percentage symbol */
+    font-weight: bold; /* Make the symbol bold */
+}
+
+.circle i {
+    font-size: 24px; /* Adjust size of the icon */
+    color: #000; /* Icon color */
+}
+
+.rupee-symbol {
+    font-size: 24px; /* Adjust size of the rupee symbol */
+    color: #007bff; /* Symbol color */
+}
+
+.circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px; /* Adjust as needed */
+    height: 60px; /* Adjust as needed */
+    border-radius: 50%;
+    border: 2px solid #e1d19d; /* Circle border color */
+    position: relative;
+    background-color:#e1d19d;
+}
+
+
+
+.double-arrow {
+    font-size: 54px; /* Adjust size for the arrow */
+    color: #000; /* Arrow color */
+    height:10px;
+    width: 260%;
+}
+
+.rupee-symbol {
+    font-size: 36px;
+    color: #000; 
+    position: absolute;
+    top: 20%; 
+    left: 50%;
+    transform: translateX(-50%); 
+}
+
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .benefit {
+        flex: 1 1 calc(50% - 20px); /* 2 items per row */
+    }
+
+    .why-sell h2 {
+        font-size: 28px; /* Smaller heading */
+    }
+}
+
+@media (max-width: 768px) {
+    .benefit {
+        flex: 1 1 100%; /* 1 item per row */
+    }
+
+    .why-sell h2 {
+        font-size: 24px; /* Smaller heading */
+    }
+}
+
+@media (max-width: 480px) {
+    .circle {
+        width: 40px; /* Smaller circle */
+        height: 40px; /* Smaller circle */
+    }
+
+    .percentage-circle {
+        width: 40px; /* Smaller circle */
+        height: 40px; /* Smaller circle */
+    }
+
+    h3 {
+        font-size: 16px; /* Smaller heading */
+    }
+
+    p {
+        font-size: 12px; /* Smaller paragraph */
+    }
+
+    button {
+        width: 100%; /* Full width button on small screens */
+    }
+
+    header {
+        padding: 10px 5%; /* Padding adjustment */
+    }
+}
+

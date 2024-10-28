@@ -1,0 +1,161 @@
+@charset "UTF-8";
+/* Basic reset */
+body, h1, p, input, form {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Overall page styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Form styling */
+form {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    margin-bottom:100px;
+}
+
+h2 {
+    text-align: center;
+    color: #000;
+    margin-bottom: 1em;
+}
+
+/* Form group styling */
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group i {
+    color: #ac914a; /* Blue color for icons */
+    font-size: 20px;
+    transition: color 0.3s, transform 0.3s;
+    margin-right: 10px;
+}
+
+.form-group i:hover {
+    color: #ac914a; /* Darker blue on hover */
+    transform: scale(1.1); /* Slightly enlarge icon on hover */
+}
+
+.form-group input {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #ac914a;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Password group styling */
+.password-group {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.password-group i {
+    color: #ac914a; /* Blue color for icons */
+    font-size: 20px;
+    transition: color 0.3s, transform 0.3s;
+    margin-right: 10px;
+}
+
+.password-group i:hover {
+    color: #ac914a; /* Darker blue on hover */
+    transform: scale(1.1); /* Slightly enlarge icon on hover */
+}
+
+.password-group #togglePassword {
+    position: absolute;
+    right: 10px;
+    font-size: 20px;
+    color: #ac914a; /* Blue color for icons */
+    cursor: pointer;
+}
+
+.password-group #togglePassword:hover {
+    color: #ac914a; /* Darker blue on hover */
+    transform: scale(1.1); /* Slightly enlarge icon on hover */
+}
+
+/* Submit button styling */
+input[type="submit"] {
+    background-color: #ac914a;
+    border: none;
+    border-radius: 4px;
+    color: #000;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+	outline: none;
+    padding: 10px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #ac914a;
+}
+
+/* Result message styling */
+c\:if p {
+    color: #d9534f;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 1em;
+    position: absolute;
+    bottom: 0;
+}
+
+footer a {
+    color: #4a89dc;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #357bd8;
+    text-decoration: underline;
+}
+
+footer img {
+    width: 100px;
+    transition: opacity 0.3s ease;
+}
+
+footer img:hover {
+    opacity: 0.8;
+}
+
+/* FontAwesome styling */
+.fas {
+    font-size: 20px;
+    color: #007bff; /* Blue color for icons */
+}
