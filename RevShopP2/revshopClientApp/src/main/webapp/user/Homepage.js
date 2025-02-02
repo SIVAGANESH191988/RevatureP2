@@ -8,8 +8,10 @@ $(document).ready(function() {
 
   // Close the navbar when a menu item is clicked
   $(".navbar-nav .nav-link").click(function() {
-    $(".navbar-collapse").collapse('hide'); // Hide the navbar
-    $("#menu-icon").removeClass("fa-times").addClass("fa-bars"); // Reset the icon
+    $(".navbar-collapse").collapse('hide'); 
+// Hide the navbar
+    $("#menu-icon").removeClass("fa-times").addClass("fa-bars"); 
+// Reset the icon
   });
 });
 
