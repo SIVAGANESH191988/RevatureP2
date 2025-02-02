@@ -33,7 +33,8 @@ background: radial-gradient(circle, rgba(225,192,72,1) 7%, rgba(231,233,127,0.34
     padding: 40px 50px;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    text-align: left; /* Align text to the left */
+    text-align: left;
+ /* Align text to the left */
     width: 100%;
     max-width: 500px;
     position: relative;
@@ -72,10 +73,12 @@ background: radial-gradient(circle, rgba(225,192,72,1) 7%, rgba(231,233,127,0.34
 /* User details */
 .container p {
     font-size: 1.2rem;
-    margin-bottom: 20px; /* Margin for spacing between rows */
+    margin-bottom: 20px; 
+/* Margin for spacing between rows */
     font-weight: 500;
     color: #555;
-    display: block; /* Use block display for a straightforward row layout */
+    display: block; 
+/* Use block display for a straightforward row layout */
 }
 
 /* Adding label style for better separation */
