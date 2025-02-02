@@ -122,7 +122,7 @@ public class RetailerControllerClientSide {
 	    retailer.setEmail(email);
 	    retailer.setPassword(password);
 
-	    // Get service instances for RETAILERSERVICE
+   // Get service instances for RETAILERSERVICE
 	    List<ServiceInstance> instances = discoveryClient.getInstances("RETAILERSERVICE");
 
 	    ModelAndView modelAndView = new ModelAndView();
@@ -142,16 +142,16 @@ public class RetailerControllerClientSide {
 	    HttpEntity<Retailer> entity = new HttpEntity<>(retailer, headers);
 
 	    try {
-	        // Exchange login request
+	      // Exchange login request
 	        ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.POST, entity, String.class);
 	        String responseBody = response.getBody();
 
-	        // Check response status and login result
+	  // Check response status and login result
 	        if (response.getStatusCode() == HttpStatus.OK && responseBody != null) {
 	            ObjectMapper objectMapper = new ObjectMapper();
 	            Retailer loggedInRetailer = objectMapper.readValue(responseBody, Retailer.class);
 
-	            // Set session attributes for the logged-in user
+	    // Set session attributes for the logged-in user
 	            session.setAttribute("retailerId", loggedInRetailer.getRetailerId());
 	            session.setAttribute("businessName", loggedInRetailer.getBusinessName());
 	            session.setAttribute("email", loggedInRetailer.getEmail());
@@ -160,10 +160,10 @@ public class RetailerControllerClientSide {
 	            session.setAttribute("isBlocked", loggedInRetailer.isBlocked());
 	            session.setAttribute("message", "Login successful!");
 
-	            // Redirect to the dashboard (will call the dashboard method)
+	    // Redirect to the dashboard (will call the dashboard method)
 	            modelAndView.setViewName("redirect:/seller/dashboard");
 	        } else {
-	            // Handle different error messages
+   // Handle different error messages
 	            if (response.getStatusCode() == HttpStatus.FORBIDDEN) {
 	                session.setAttribute("message", "Account is blocked or not approved.");
 	            } else if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
@@ -210,7 +210,7 @@ public class RetailerControllerClientSide {
 	    RestTemplate restTemplate = new RestTemplate();
 
 	    try {
-	        // Fetch total order count
+   // Fetch total order count
 	        String salesCountUrl = "http://localhost:8181/retailer/" + retailerId + "/orders/count";
 	        ResponseEntity<Integer> salesCountResponse = restTemplate.getForEntity(salesCountUrl, Integer.class);
 	        Integer salesCount = salesCountResponse.getStatusCode() == HttpStatus.OK ? 
@@ -257,7 +257,8 @@ public class RetailerControllerClientSide {
 		List<ServiceInstance> instances = discoveryClient.getInstances("RETAILERSERVICE");
 		if (instances.isEmpty()) {
 			modelAndView.addObject("message", "Retailer service is currently unavailable.");
-			modelAndView.setViewName("redirect:/seller/dashboard"); // Redirect to error page
+			modelAndView.setViewName("redirect:/seller/dashboard"); 
+// Redirect to error page
 			return modelAndView;
 		}
 
@@ -314,15 +315,13 @@ public class RetailerControllerClientSide {
 		ModelAndView mv = new ModelAndView();
 
 		Long retailerId = (Long) request.getSession().getAttribute("retailerId");
-
-		// Check if retailerId is available in the session
+// Check if retailerId is available in the session
 		if (retailerId == null) {
 			request.getSession().setAttribute("message", "Retailer ID not found in session");
 			mv.setViewName("redirect:/seller/dashboard");
 			return mv;
 		}
-
-		// Fetch the service instance for the retailer service
+	// Fetch the service instance for the retailer service
 		List<ServiceInstance> instances = discoveryClient.getInstances("RETAILERSERVICE");
 		if (instances.isEmpty()) {
 			request.getSession().setAttribute("message", "Retailer service is currently unavailable.");
@@ -336,13 +335,13 @@ public class RetailerControllerClientSide {
 		RestTemplate restTemplate = new RestTemplate();
 
 		try {
-			// Make a DELETE request to the retailer service to delete the review
+		// Make a DELETE request to the retailer service to delete the review
 			ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, String.class);
-
-			// Check the response status and set the appropriate message
+// Check the response status and set the appropriate message
 			if (response.getStatusCode() == HttpStatus.OK) {
 				request.getSession().setAttribute("message", "Review deleted successfully.");
-				mv.setViewName("redirect:/seller/dashboard"); // Redirect to the products list page
+				mv.setViewName("redirect:/seller/dashboard"); 
+// Redirect to the products list page
 			} else {
 				request.getSession().setAttribute("message", "Failed to delete review: " + response.getBody());
 				mv.setViewName("redirect:/seller/dashboard"); 
@@ -357,10 +356,9 @@ public class RetailerControllerClientSide {
 // Consider using a logging framework
 			request.getSession().setAttribute("message", "An unexpected error occurred while deleting the review.");
 		}
-
-		// Redirect back to the reviews page
+// Redirect back to the reviews page
 		mv.setViewName("redirect:/reviews");
- // Use a named view instead
+// Use a named view instead
 		return mv;
 	}
 
@@ -369,8 +367,7 @@ public class RetailerControllerClientSide {
 		ModelAndView modelAndView = new ModelAndView();
 
 		Long retailerId = (Long) request.getSession().getAttribute("retailerId");
-
-		// Check if retailerId is available in the session
+// Check if retailerId is available in the session
 		if (retailerId == null) {
 			modelAndView.addObject("message", "Retailer ID not found in session");
 			System.out.println("Retailer ID not found in session.");
@@ -388,8 +385,7 @@ public class RetailerControllerClientSide {
 
 		ServiceInstance serviceInstance = instances.get(0);
 		String baseUrl = "http://localhost:8181/retailer/orders/" + retailerId;
-
-		// Log the URL being accessed
+// Log the URL being accessed
 		System.out.println("Requesting URL: " + baseUrl);
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -400,8 +396,7 @@ public class RetailerControllerClientSide {
 			ResponseEntity<List<Order>> response = restTemplate.exchange(baseUrl, HttpMethod.GET, null,
 					new ParameterizedTypeReference<List<Order>>() {
 					});
-
-			// Log the response body
+// Log the response body
 			System.out.println("Response Body: " + response.getBody());
 
 			if (response.getStatusCode() == HttpStatus.OK) {
@@ -420,7 +415,7 @@ public class RetailerControllerClientSide {
 			e.printStackTrace();
 			request.getSession().setAttribute("message", "Error fetching orders: " + e.getMessage());
 			modelAndView.setViewName("redirect:/seller/Orders.jsp");
- // Redirect to an error page
+// Redirect to an error page
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.getSession().setAttribute("message", "An unexpected error occurred.");
@@ -437,15 +432,13 @@ public class RetailerControllerClientSide {
 			@RequestParam("newStatus") String newStatus, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
 		Long retailerId = (Long) request.getSession().getAttribute("retailerId");
-
-		// Check if retailerId is available in the session
+// Check if retailerId is available in the session
 		if (retailerId == null) {
 			request.getSession().setAttribute("message", "Retailer ID not found in session");
 			mv.setViewName("redirect:/seller/dashboard");
 			return mv;
 		}
-
-		// Fetch the service instance for the retailer service
+// Fetch the service instance for the retailer service
 		List<ServiceInstance> instances = discoveryClient.getInstances("RETAILERSERVICE");
 		if (instances.isEmpty()) {
 			request.getSession().setAttribute("message", "Retailer service is currently unavailable.");
@@ -455,10 +448,9 @@ public class RetailerControllerClientSide {
 
 		ServiceInstance serviceInstance = instances.get(0);
 		String baseUrl = "http://localhost:8181/retailer/orders/" + orderId + "/status";
-
-		// Prepare the request body
+// Prepare the request body
 		String jsonBody = newStatus;
- // Adjust as needed for JSON formatting
+// Adjust as needed for JSON formatting
 
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -469,8 +461,7 @@ public class RetailerControllerClientSide {
 		try {
 			// Make a PUT request to update the order status
 			ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.PUT, entity, String.class);
-
-			// Check the response status
+// Check the response status
 			if (response.getStatusCode() == HttpStatus.OK) {
 				request.getSession().setAttribute("message", "Order status updated successfully.");
 			} else {
@@ -484,9 +475,9 @@ public class RetailerControllerClientSide {
 			request.getSession().setAttribute("message",
 					"An unexpected error occurred while updating the order status.");
 		}
-
-		// Redirect back to the orders page
-		mv.setViewName("redirect:/orders"); // Adjust the redirect as necessary
+// Redirect back to the orders page
+		mv.setViewName("redirect:/orders"); 
+// Adjust the redirect as necessary
 		return mv;
 	}
 
@@ -494,26 +485,26 @@ public class RetailerControllerClientSide {
 	public ModelAndView getAllProducts(HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
 		Long retailerId = (Long) request.getSession().getAttribute("retailerId");
-
-		// Check if retailerId is available in the session
+// Check if retailerId is available in the session
 		if (retailerId == null) {
 			modelAndView.addObject("message", "Retailer ID not found in session");
 			System.out.println("Retailer ID not found in session.");
-			modelAndView.setViewName("redirect:/seller/dashboard"); // Redirect to error page
+			modelAndView.setViewName("redirect:/seller/dashboard");
+ // Redirect to error page
 			return modelAndView;
 		}
 
 		List<ServiceInstance> instances = discoveryClient.getInstances("RETAILERSERVICE");
 		if (instances.isEmpty()) {
 			modelAndView.addObject("message", "Retailer service is currently unavailable.");
-			modelAndView.setViewName("redirect:/seller/dashboard"); // Redirect to error page
+			modelAndView.setViewName("redirect:/seller/dashboard"); 
+// Redirect to error page
 			return modelAndView;
 		}
 
 		ServiceInstance serviceInstance = instances.get(0);
 		String baseUrl = "http://localhost:8181/retailer/retailerproducts/" + retailerId;
-
-		// Log the URL being accessed
+// Log the URL being accessed
 		System.out.println("Requesting URL: " + baseUrl);
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -524,8 +515,7 @@ public class RetailerControllerClientSide {
 			ResponseEntity<List<Product>> response = restTemplate.exchange(baseUrl, HttpMethod.GET, null,
 					new ParameterizedTypeReference<List<Product>>() {
 					});
-
-			// Log the response body
+// Log the response body
 			System.out.println("Response Body: " + response.getBody());
 
 			if (response.getStatusCode() == HttpStatus.OK) {
@@ -561,15 +551,13 @@ public class RetailerControllerClientSide {
 		ModelAndView modelAndView = new ModelAndView();
 
 		Long retailerId = (Long) request.getSession().getAttribute("retailerId");
-
-		// Check if retailerId is available in the session
+// Check if retailerId is available in the session
 		if (retailerId == null) {
 			request.getSession().setAttribute("message", "Retailer ID not found in session");
 			modelAndView.setViewName("redirect:/seller/dashboard");
 			return modelAndView;
 		}
-
-		// Fetch the service instance for the retailer service
+// Fetch the service instance for the retailer service
 		List<ServiceInstance> instances = discoveryClient.getInstances("RETAILERSERVICE");
 		if (instances.isEmpty()) {
 			request.getSession().setAttribute("message", "Retailer service is currently unavailable.");
@@ -585,8 +573,7 @@ public class RetailerControllerClientSide {
 		try {
 			// Make a DELETE request to delete the product
 			ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, String.class);
-
-			// Check the response status
+// Check the response status
 			if (response.getStatusCode() == HttpStatus.OK) {
 				request.getSession().setAttribute("message", "Product deleted successfully.");
 				modelAndView.setViewName("redirect:/seller/dashboard"); 
@@ -603,8 +590,7 @@ public class RetailerControllerClientSide {
 			e.printStackTrace();
 			request.getSession().setAttribute("message", "An unexpected error occurred while deleting the product.");
 		}
-
-		// Redirect back to the products page
+// Redirect back to the products page
 		modelAndView.setViewName("redirect:/products"); 
 // Adjust the redirect as necessary
 		return modelAndView;
@@ -626,16 +612,14 @@ public class RetailerControllerClientSide {
 
 		HttpSession session = request.getSession();
 		Long retailerid = (Long) session.getAttribute("retailerId");
-
-		// Check if retailer is in session
+// Check if retailer is in session
 		if (retailerid == null) {
 			mv.setViewName("redirect:/seller/login.jsp"); 
 // Redirect to login page if retailer not in session
 			session.setAttribute("message", "Please log in to add a product.");
 			return mv;
 		}
-
-		// Create a new Product object with the provided details
+// Create a new Product object with the provided details
 		Product product = new Product();
 		product.setProductName(productName);
 		product.setDescription(description);
@@ -643,15 +627,13 @@ public class RetailerControllerClientSide {
 		product.setStockQuantity(stockQuantity);
 		product.setCategory(category);
 		product.setRetailerId(retailerid); // Set retailer from session
-
-		// Handle image file upload
+// Handle image file upload
 		String fileName = imageFile.getOriginalFilename();
 		try {
 			// Save the uploaded image to the specified directory
 			String filePath = UPLOAD_DIR + "/" + fileName;
 			imageFile.transferTo(new File(filePath));
-
-			// Set the image path in the product object
+// Set the image path in the product object
 			product.setImage(fileName);
 
 		} catch (Exception e) {
@@ -660,8 +642,7 @@ public class RetailerControllerClientSide {
 			mv.setViewName("redirect:/seller/AddNewProduct.jsp");
 			return mv;
 		}
-
-		// Get service instances for RETAILERSERVICE
+	// Get service instances for RETAILERSERVICE
 		List<ServiceInstance> instances = discoveryClient.getInstances("RETAILERSERVICE");
 
 		if (instances == null || instances.isEmpty()) {
@@ -684,11 +665,11 @@ public class RetailerControllerClientSide {
 			String responseBody = response.getBody();
 
 			System.out.println("Response Body: " + response.getBody());
-
-			// Check response for success
+// Check response for success
 			if (response.getStatusCode() == HttpStatus.OK && responseBody.contains("Product added successfully")) {
 				session.setAttribute("message", "Product added successfully!");
-				mv.setViewName("redirect:/seller/dashboard"); // Redirect to the products list page
+				mv.setViewName("redirect:/seller/dashboard");
+ // Redirect to the products list page
 			} else {
 				session.setAttribute("message", "Failed to add the product. Please try again.");
 				mv.setViewName("redirect:/seller/AddNewProduct.jsp");
@@ -718,32 +699,29 @@ public class RetailerControllerClientSide {
 
 		HttpSession session = request.getSession();
 		Long retailerId = (Long) session.getAttribute("retailerId");
-
-		// Check if retailer is in session
+	// Check if retailer is in session
 		if (retailerId == null) {
 			mv.setViewName("redirect:/seller/login.jsp"); // Redirect to login page if retailer not in session
 			session.setAttribute("message", "Please log in to update the product.");
 			return mv;
 		}
-
-		// Create a new Product object with the provided details
+// Create a new Product object with the provided details
 		Product product = new Product();
 		product.setProductName(productName);
 		product.setDescription(description);
 		product.setPrice(price);
 		product.setStockQuantity(stockQuantity);
 		product.setCategory(category);
-		product.setRetailerId(retailerId); // Set retailer from session
-
-		// Handle image file upload (if provided)
+		product.setRetailerId(retailerId); 
+// Set retailer from session
+// Handle image file upload (if provided)
 		if (imageFile != null && !imageFile.isEmpty()) {
 			String fileName = imageFile.getOriginalFilename();
 			try {
-				// Save the uploaded image to the specified directory
+// Save the uploaded image to the specified directory
 				String filePath = UPLOAD_DIR + "/" + fileName;
 				imageFile.transferTo(new File(filePath));
-
-				// Set the image path in the product object
+// Set the image path in the product object
 				product.setImage(fileName);
 
 			} catch (Exception e) {
@@ -778,8 +756,7 @@ public class RetailerControllerClientSide {
 			String responseBody = response.getBody();
 
 			System.out.println("Response Body: " + responseBody);
-
-			// Check response for success
+// Check response for success
 			if (response.getStatusCode() == HttpStatus.OK && responseBody.contains("Product updated successfully")) {
 				session.setAttribute("message", "Product updated successfully!");
 				mv.setViewName("redirect:/products");
@@ -810,8 +787,7 @@ public class RetailerControllerClientSide {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		headers.setContentType(MediaType.APPLICATION_JSON);
-
-		// Create the request body
+	// Create the request body
 		HttpEntity<Integer> entity = new HttpEntity<>(newStockQuantity, headers);
 
 		ModelAndView modelAndView = new ModelAndView();
