@@ -271,8 +271,10 @@ System.out.println(baseUrl);
                 // Retrieve the existing cart from the session or create a new one
                 Cart cart = (Cart) session.getAttribute("cart");
                 if (cart == null) {
-                    cart = new Cart();  // Create a new cart if it doesn't exist
-                    cart.setBuyer(new Buyer());  // Set the buyer information
+                    cart = new Cart();  
+// Create a new cart if it doesn't exist
+                    cart.setBuyer(new Buyer()); 
+ // Set the buyer information
                     session.setAttribute("cart", cart); // Store the new cart in the session
                 }
 
@@ -290,11 +292,13 @@ System.out.println(baseUrl);
                 if (!itemExists) {
                     // If the item doesn't exist, add it as a new CartItem
                     CartItem newItem = new CartItem();
-                    Product product = new Product();  // Fetch or create product details
+                    Product product = new Product();  
+// Fetch or create product details
                     product.setProductId(productId);
                     newItem.setProduct(product);
                     newItem.setQuantity(quantity);
-                    cart.getCartItems().add(newItem);  // Add the new item to the cart
+                    cart.getCartItems().add(newItem); 
+ // Add the new item to the cart
                 }
 
                 // Store the updated cart in the session
@@ -362,14 +366,16 @@ System.out.println(baseUrl);
         }
 
         // Fetch the updated cart after adding the item
-        return viewCart(request); // Call viewCart method to refresh the cart
+        return viewCart(request); 
+// Call viewCart method to refresh the cart
     }
 
 
     
     @RequestMapping("/viewCart")
     public ModelAndView viewCart(HttpServletRequest request) {
-        ModelAndView modelAndView = new ModelAndView("cart"); // Ensure this matches your JSP name
+        ModelAndView modelAndView = new ModelAndView("cart"); 
+// Ensure this matches your JSP name
         HttpSession session = request.getSession();
 
         // Get buyerId from the session
@@ -399,7 +405,8 @@ System.out.println(baseUrl);
             List<CartItem> cartItems = response.getBody();
 
             if (response.getStatusCode() == HttpStatus.OK && cartItems != null) {
-                modelAndView.addObject("cartItems", cartItems); // Add cart items to the model
+                modelAndView.addObject("cartItems", cartItems);
+ // Add cart items to the model
             } else {
                 modelAndView.addObject("message", "No items in the cart.");
             }
@@ -416,7 +423,8 @@ System.out.println(baseUrl);
 
 	@GetMapping("/fetchCartItems")
     public ModelAndView fetchCartItems(HttpServletRequest request) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/user/cart.jsp"); // Ensure this matches your JSP name
+        ModelAndView modelAndView = new ModelAndView("redirect:/user/cart.jsp");
+ // Ensure this matches your JSP name
         HttpSession session = request.getSession();
 
         // Retrieve buyerId from the session
@@ -445,7 +453,8 @@ System.out.println(baseUrl);
         try {
             response = restTemplate.exchange(baseUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<CartItem>>() {});
             List<CartItem> cartItems = response.getBody();
-            modelAndView.addObject("cartItems", cartItems); // Add cart items to the model
+            modelAndView.addObject("cartItems", cartItems); 
+// Add cart items to the model
         } catch (Exception e) {
             e.printStackTrace();
             modelAndView.addObject("message", "Error fetching cart items.");
