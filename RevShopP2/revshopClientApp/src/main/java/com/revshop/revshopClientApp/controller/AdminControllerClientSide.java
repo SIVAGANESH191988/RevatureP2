@@ -43,18 +43,23 @@ public class AdminControllerClientSide {
     public ModelAndView loginAdmin(HttpServletRequest request,
                                    @RequestParam("email") String email, 
                                    @RequestParam("password") String password) {
-        HttpSession session = request.getSession(); // Get session
+        HttpSession session = request.getSession(); 
+// Get session
 
-        Admin admin = new Admin(); // Create an Admin object
-        admin.setEmail(email); // Set email from form input
-        admin.setPassword(password); // Set password from form input
+        Admin admin = new Admin();
+ // Create an Admin object
+        admin.setEmail(email);
+ // Set email from form input
+        admin.setPassword(password); 
+// Set password from form input
 
         // Discover the admin service instance
         List<ServiceInstance> instances = discoveryClient.getInstances("ADMINSERVICE");
         if (instances.isEmpty()) {
             ModelAndView mv = new ModelAndView();
             mv.addObject("loginResult", "Admin service is unavailable.");
-            mv.setViewName("errorPage"); // Error page if no service instances are found
+            mv.setViewName("errorPage"); 
+// Error page if no service instances are found
             return mv;
         }
 
@@ -71,32 +76,42 @@ public class AdminControllerClientSide {
         String resultMessage = responseEntity.getBody();
         System.out.println("Response from admin service: " + resultMessage);
 
-        ModelAndView mv = new ModelAndView(); // Creating a model
+        ModelAndView mv = new ModelAndView(); 
+// Creating a model
 
         if ("Login Failed".equals(resultMessage)) {
             mv.addObject("loginResult", resultMessage);
-            mv.setViewName("redirect:/admin/adminLogin");  // Show login page if login failed
+            mv.setViewName("redirect:/admin/adminLogin"); 
+ // Show login page if login failed
         } else {
-            session.setAttribute("adminEmail", email); // Set the email in session for future use
-            mv.setViewName("redirect:/admin/adminDashboard.jsp");  // Redirect to dashboard on successful login
+            session.setAttribute("adminEmail", email); 
+// Set the email in session for future use
+            mv.setViewName("redirect:/admin/adminDashboard.jsp"); 
+ // Redirect to dashboard on successful login
         }
-        return mv; // Returning the model
+        return mv; 
+// Returning the model
     }
 
     @RequestMapping("admin/adminlogout")
     public String logoutAdmin(HttpServletRequest request) { 
-        HttpSession session = request.getSession(false); // creating a session
+        HttpSession session = request.getSession(false);
+ // creating a session
         if (session != null) { 
-            session.invalidate(); // invalidating the session
+            session.invalidate();
+ // invalidating the session
         }
-        return "redirect:adminLogin.jsp"; // redirecting to the login page
+        return "redirect:adminLogin.jsp"; 
+// redirecting to the login page
     }
 
     @RequestMapping("/viewBuyers")
     public ModelAndView viewBuyers(HttpServletRequest request) {
-        HttpSession session = request.getSession(false); // Check if session exists
+        HttpSession session = request.getSession(false);
+ // Check if session exists
         if (session == null || session.getAttribute("adminEmail") == null) {
-            return new ModelAndView("redirect:adminLogin.jsp"); // Redirect if not logged in
+            return new ModelAndView("redirect:adminLogin.jsp"); 
+// Redirect if not logged in
         }
 
         List<ServiceInstance> instances = discoveryClient.getInstances("ADMINSERVICE");
@@ -116,15 +131,14 @@ public class AdminControllerClientSide {
         Buyer[] buyers = response.getBody();
 
         if (buyers != null) {
-            System.out.println("Buyers: " + Arrays.toString(buyers)); // Print the array contents
+            System.out.println("Buyers: " + Arrays.toString(buyers)); 
+// Print the array contents
         } else {
             System.out.println("No buyers found or response is null");
         }
-
-        // Store the buyersList in the session
+// Store the buyersList in the session
         session.setAttribute("buyersList", Arrays.asList(buyers != null ? buyers : new Buyer[0]));
-
-        // Redirect to the JSP page
+// Redirect to the JSP page
         return new ModelAndView("redirect:/admin/Users.jsp");
     }
 
@@ -133,9 +147,11 @@ public class AdminControllerClientSide {
     
     @RequestMapping("/viewRetailers")
     public ModelAndView viewRetailers(HttpServletRequest request) {
-        HttpSession session = request.getSession(false); // Check if session exists
+        HttpSession session = request.getSession(false); 
+// Check if session exists
         if (session == null || session.getAttribute("adminEmail") == null) {
-            return new ModelAndView("redirect:adminLogin.jsp"); // Redirect if not logged in
+            return new ModelAndView("redirect:adminLogin.jsp");
+ // Redirect if not logged in
         }
 
         List<ServiceInstance> instances = discoveryClient.getInstances("ADMINSERVICE");
@@ -155,12 +171,12 @@ public class AdminControllerClientSide {
         Retailer[] retailers = response.getBody();
 
         if (retailers != null) {
-            System.out.println("Retailers: " + Arrays.toString(retailers)); // Print the array contents
+            System.out.println("Retailers: " + Arrays.toString(retailers));
+ // Print the array contents
         } else {
             System.out.println("No retailers found or response is null");
         }
-
-        // Store the retailersList in the session
+// Store the retailersList in the session
         session.setAttribute("retailersList", Arrays.asList(retailers != null ? retailers : new Retailer[0]));
 
         // Redirect to the JSP page
@@ -171,9 +187,11 @@ public class AdminControllerClientSide {
     
     @RequestMapping("/viewApprovedRetailers")
     public ModelAndView viewApprovedRetailers(HttpServletRequest request) {
-        HttpSession session = request.getSession(false); // Check if session exists
+        HttpSession session = request.getSession(false);
+ // Check if session exists
         if (session == null || session.getAttribute("adminEmail") == null) {
-            return new ModelAndView("redirect:adminLogin.jsp"); // Redirect if not logged in
+            return new ModelAndView("redirect:adminLogin.jsp"); 
+// Redirect if not logged in
         }
 
         List<ServiceInstance> instances = discoveryClient.getInstances("ADMINSERVICE");
@@ -193,12 +211,12 @@ public class AdminControllerClientSide {
         Retailer[] retailers = response.getBody();
 
         if (retailers != null) {
-            System.out.println("Approved Retailers: " + Arrays.toString(retailers)); // Print the array contents
+            System.out.println("Approved Retailers: " + Arrays.toString(retailers));
+ // Print the array contents
         } else {
             System.out.println("No approved retailers found or response is null");
         }
-
-        // Store the approvedRetailersList in the session
+// Store the approvedRetailersList in the session
         session.setAttribute("approvedRetailersList", Arrays.asList(retailers != null ? retailers : new Retailer[0]));
 
         // Redirect to the JSP page
@@ -209,9 +227,11 @@ public class AdminControllerClientSide {
     
     @RequestMapping("/viewComplaints")
     public ModelAndView viewComplaints(HttpServletRequest request) {
-        HttpSession session = request.getSession(false); // Check if session exists
+        HttpSession session = request.getSession(false); 
+// Check if session exists
         if (session == null || session.getAttribute("adminEmail") == null) {
-            return new ModelAndView("redirect:adminLogin.jsp"); // Redirect if not logged in
+            return new ModelAndView("redirect:adminLogin.jsp"); 
+// Redirect if not logged in
         }
 
         List<ServiceInstance> instances = discoveryClient.getInstances("ADMINSERVICE");
@@ -231,15 +251,14 @@ public class AdminControllerClientSide {
         Complaint[] complaints = response.getBody();
 
         if (complaints != null) {
-            System.out.println("Complaints: " + Arrays.toString(complaints)); // Print the array contents
+            System.out.println("Complaints: " + Arrays.toString(complaints));
+ // Print the array contents
         } else {
             System.out.println("No complaints found or response is null");
         }
-
-        // Store the complaintsList in the session
+// Store the complaintsList in the session
         session.setAttribute("complaintsList", Arrays.asList(complaints != null ? complaints : new Complaint[0]));
-
-        // Redirect to the JSP page
+// Redirect to the JSP page
         return new ModelAndView("redirect:/admin/Complaints.jsp");
     }
 
@@ -247,9 +266,11 @@ public class AdminControllerClientSide {
     
     @RequestMapping("/viewOrders")
     public ModelAndView viewOrders(HttpServletRequest request) {
-        HttpSession session = request.getSession(false); // Check if session exists
+        HttpSession session = request.getSession(false); 
+// Check if session exists
         if (session == null || session.getAttribute("adminEmail") == null) {
-            return new ModelAndView("redirect:adminLogin.jsp"); // Redirect if not logged in
+            return new ModelAndView("redirect:adminLogin.jsp"); 
+// Redirect if not logged in
         }
 
         List<ServiceInstance> instances = discoveryClient.getInstances("ADMINSERVICE");
@@ -269,23 +290,24 @@ public class AdminControllerClientSide {
         Order[] ordersDTOs = response.getBody();
 
         if (ordersDTOs != null) {
-            System.out.println("Orders: " + Arrays.toString(ordersDTOs)); // Print the array contents
+            System.out.println("Orders: " + Arrays.toString(ordersDTOs)); 
+// Print the array contents
         } else {
             System.out.println("No orders found or response is null");
         }
-
-        // Store the ordersList in the session
+// Store the ordersList in the session
         session.setAttribute("ordersList", Arrays.asList(ordersDTOs != null ? ordersDTOs : new Order[0]));
-
-        // Redirect to the JSP page
+// Redirect to the JSP page
         return new ModelAndView("redirect:/admin/Orders.jsp");
     }
 
     @RequestMapping(value = "/blockBuyer", method = RequestMethod.POST)
     public String blockBuyer(HttpServletRequest request, @RequestParam("buyerId") Long buyerId) {
-        HttpSession session = request.getSession(false); // Check if session exists
+        HttpSession session = request.getSession(false); 
+// Check if session exists
         if (session == null || session.getAttribute("adminEmail") == null) {
-            return "redirect:adminLogin.jsp"; // Redirect if not logged in
+            return "redirect:adminLogin.jsp";
+ // Redirect if not logged in
         }
 
         List<ServiceInstance> instances = discoveryClient.getInstances("ADMINSERVICE");
@@ -298,23 +320,27 @@ public class AdminControllerClientSide {
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.POST, null, String.class);
-        String result = response.getBody(); // Get the response body directly
-
-        // Redirect based on the response
+        String result = response.getBody();
+ // Get the response body directly
+// Redirect based on the response
         if ("Buyer blocked successfully".equals(result)) {
             // Optionally set a success message in session or flash attributes
-            return "redirect:/admin/Users.jsp"; // Redirect to the users list page
+            return "redirect:/admin/Users.jsp"; 
+// Redirect to the users list page
         } else {
-            // Optionally set an error message in session or flash attributes
-            return "redirect:/admin/error.jsp"; // Redirect to an error page
+// Optionally set an error message in session or flash attributes
+            return "redirect:/admin/error.jsp";
+ // Redirect to an error page
         }
     }
 
     @RequestMapping(value = "/unblockBuyer", method = RequestMethod.POST)
     public String unblockBuyer(HttpServletRequest request, @RequestParam("buyerId") Long buyerId) {
-        HttpSession session = request.getSession(false); // Check if session exists
+        HttpSession session = request.getSession(false); 
+// Check if session exists
         if (session == null || session.getAttribute("adminEmail") == null) {
-            return "redirect:adminLogin.jsp"; // Redirect if not logged in
+            return "redirect:adminLogin.jsp"; 
+// Redirect if not logged in
         }
 
         List<ServiceInstance> instances = discoveryClient.getInstances("ADMINSERVICE");
@@ -327,24 +353,28 @@ public class AdminControllerClientSide {
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.POST, null, String.class);
-        String result = response.getBody(); // Get the response body
-
-        // Redirect based on the response
+        String result = response.getBody();
+ // Get the response body
+// Redirect based on the response
         if ("Buyer unblocked successfully".equals(result)) {
             // Optionally set a success message in session or flash attributes
-            return "redirect:/admin/Users.jsp"; // Redirect to the users list page
+            return "redirect:/admin/Users.jsp";
+ // Redirect to the users list page
         } else {
-            // Optionally set an error message in session or flash attributes
-            return "redirect:/admin/error.jsp"; // Redirect to an error page
+// Optionally set an error message in session or flash attributes
+            return "redirect:/admin/error.jsp"; 
+// Redirect to an error page
         }
     }
     
     
     @RequestMapping(value = "/blockRetailer", method = RequestMethod.POST)
     public String blockRetailer(HttpServletRequest request, @RequestParam("retailerId") Long retailerId) {
-        HttpSession session = request.getSession(false); // Check if session exists
+        HttpSession session = request.getSession(false);
+ // Check if session exists
         if (session == null || session.getAttribute("adminEmail") == null) {
-            return "redirect:adminLogin.jsp"; // Redirect if not logged in
+            return "redirect:adminLogin.jsp"; 
+// Redirect if not logged in
         }
 
         List<ServiceInstance> instances = discoveryClient.getInstances("ADMINSERVICE");
@@ -357,12 +387,13 @@ public class AdminControllerClientSide {
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.POST, null, String.class);
-        String result = response.getBody(); // Get the response body directly
-
-        // Redirect based on the response
+        String result = response.getBody(); 
+// Get the response body directly
+ // Redirect based on the response
         if ("Buyer blocked successfully".equals(result)) {
-            // Optionally set a success message in session or flash attributes
-            return "redirect:/admin/ApprovedRetailers.jsp"; // Redirect to the users list page
+// Optionally set a success message in session or flash attributes
+            return "redirect:/admin/ApprovedRetailers.jsp"; 
+// Redirect to the users list page
         } 
         
         return "redirect:/admin/ApprovedRetailers.jsp";
@@ -370,9 +401,11 @@ public class AdminControllerClientSide {
 
     @RequestMapping(value = "/unblockRetailer", method = RequestMethod.POST)
     public String unblockRetailer(HttpServletRequest request, @RequestParam("retailerId") Long retailerId) {
-        HttpSession session = request.getSession(false); // Check if session exists
+        HttpSession session = request.getSession(false);
+ // Check if session exists
         if (session == null || session.getAttribute("adminEmail") == null) {
-            return "redirect:adminLogin.jsp"; // Redirect if not logged in
+            return "redirect:adminLogin.jsp"; 
+// Redirect if not logged in
         }
 
         List<ServiceInstance> instances = discoveryClient.getInstances("ADMINSERVICE");
@@ -385,12 +418,13 @@ public class AdminControllerClientSide {
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.POST, null, String.class);
-        String result = response.getBody(); // Get the response body
-
-        // Redirect based on the response
+        String result = response.getBody(); 
+// Get the response body
+  // Redirect based on the response
         if ("Buyer unblocked successfully".equals(result)) {
             // Optionally set a success message in session or flash attributes
-            return "redirect:/admin/ApprovedRetailers.jsp"; // Redirect to the users list page
+            return "redirect:/admin/ApprovedRetailers.jsp";
+ // Redirect to the users list page
         }
 		return "redirect:/admin/ApprovedRetailers.jsp"; 
     }
@@ -400,7 +434,8 @@ public class AdminControllerClientSide {
     public ModelAndView deleteRetailerRequest(HttpServletRequest request, @RequestParam("retailerId") Long retailerId) {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("adminEmail") == null) {
-            return new ModelAndView("redirect:adminLogin.jsp"); // Redirect if not logged in
+            return new ModelAndView("redirect:adminLogin.jsp");
+ // Redirect if not logged in
         }
 
         List<ServiceInstance> instances = discoveryClient.getInstances("ADMINSERVICE");
@@ -414,10 +449,8 @@ public class AdminControllerClientSide {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.DELETE, null, String.class);
         String resultMessage = response.getBody();
-
-        // Add result message to the session to show on the redirected page
+    // Add result message to the session to show on the redirected page
         session.setAttribute("deleteResult", resultMessage);
-
         // Redirect to a page that shows the result
         return new ModelAndView("redirect:/admin/Retailers.jsp");
     }
