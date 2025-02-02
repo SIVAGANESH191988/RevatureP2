@@ -143,7 +143,8 @@ public class BuyerController {
             return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
         }
 
-        System.out.println("Retrieved product details: " + product); // Print full details
+        System.out.println("Retrieved product details: " + product); 
+// Print full details
 
         Cart cart = buyerService.getCartByBuyerId(buyerId);
         if (cart == null) {
@@ -210,10 +211,12 @@ public class BuyerController {
             Order order = buyerService.placeOrder(cart); // Call the service method to place the 
             cart.getCartItems().clear();
             buyerService.saveCart(cart); 
-            return new ResponseEntity<>(order, HttpStatus.CREATED); // Return the created order with status 201
+            return new ResponseEntity<>(order, HttpStatus.CREATED);
+ // Return the created order with status 201
         }
 
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Return 400 if the cart is empty or null
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+// Return 400 if the cart is empty or null
     }
 
     // Remove an item from the cart
