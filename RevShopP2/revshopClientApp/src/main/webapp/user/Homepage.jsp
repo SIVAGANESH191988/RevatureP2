@@ -218,7 +218,8 @@
 
 	<script>
   document.getElementById('searchForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form submission
+    event.preventDefault(); 
+// Prevent form submission
 
     // Get the search input
     const query = document.getElementById('searchInput').value.toLowerCase();
@@ -228,7 +229,8 @@
 
     // Show all cards initially
     productCards.forEach(card => {
-      card.style.display = 'block'; // Reset the display
+      card.style.display = 'block'; 
+// Reset the display
     });
 
     // Filter products based on the input
