@@ -93,15 +93,18 @@ public class RetailerControllerClientSide {
 
 				emailService.sendSimpleEmail(email, subject, body);
 
-				mv.setViewName("redirect:/seller/mainpage.jsp"); // Redirect to main page after successful registration
+				mv.setViewName("redirect:/seller/mainpage.jsp"); 
+// Redirect to main page after successful registration
 			} else {
 				request.getSession().setAttribute("message", "Retailer registration failed");
-				mv.setViewName("redirect:/seller/createAccount.jsp"); // Redirect back to create account page on failure
+				mv.setViewName("redirect:/seller/createAccount.jsp");
+ // Redirect back to create account page on failure
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.getSession().setAttribute("message", "An error occurred during registration");
-			mv.setViewName("redirect:/seller/createAccount.jsp"); // Redirect to create account page on error
+			mv.setViewName("redirect:/seller/createAccount.jsp"); 
+// Redirect to create account page on error
 		}
 
 		return mv;
@@ -214,14 +217,14 @@ public class RetailerControllerClientSide {
 	                              salesCountResponse.getBody() : 0;
 	        modelAndView.addObject("salesCount", salesCount);
 
-	        // Fetch total product review count
+	// Fetch total product review count
 	        String productReviewsCountUrl = "http://localhost:8181/retailer/productReviewsCount/" + retailerId;
 	        ResponseEntity<Integer> productReviewsCountResponse = restTemplate.getForEntity(productReviewsCountUrl, Integer.class);
 	        Integer productReviewsCount = productReviewsCountResponse.getStatusCode() == HttpStatus.OK ? 
 	                                      productReviewsCountResponse.getBody() : 0;
 	        modelAndView.addObject("productReviewsCount", productReviewsCount);
 
-	        // Fetch total product count
+	// Fetch total product count
 	        String productsCountUrl = "http://localhost:8181/retailer/" + retailerId + "/products/count";
 	        ResponseEntity<Integer> productsCountResponse = restTemplate.getForEntity(productsCountUrl, Integer.class);
 	        Integer productsCount = productsCountResponse.getStatusCode() == HttpStatus.OK ? 
@@ -246,7 +249,8 @@ public class RetailerControllerClientSide {
 		if (retailerId == null) {
 			modelAndView.addObject("message", "Retailer ID not found in session");
 			System.out.println("Retailer ID not found in session.");
-			modelAndView.setViewName("redirect:/seller/Dashboard.jsp"); // Redirect to error page
+			modelAndView.setViewName("redirect:/seller/Dashboard.jsp"); 
+// Redirect to error page
 			return modelAndView;
 		}
 
@@ -269,7 +273,8 @@ public class RetailerControllerClientSide {
 
 		try {
 			ResponseEntity<List<ProductReview>> response = restTemplate.exchange(baseUrl, HttpMethod.GET,
-					new HttpEntity<>(headers), // Include headers in the request
+					new HttpEntity<>(headers), 
+// Include headers in the request
 					new ParameterizedTypeReference<List<ProductReview>>() {
 					});
 
@@ -278,24 +283,30 @@ public class RetailerControllerClientSide {
 
 			if (response.getStatusCode() == HttpStatus.OK) {
 				List<ProductReview> reviews = response.getBody();
-				modelAndView.addObject("reviews", reviews); // Pass reviews to the view
-				modelAndView.setViewName("/seller/ProductReviews.jsp"); // Set the view to render the reviews
+				modelAndView.addObject("reviews", reviews); 
+// Pass reviews to the view
+				modelAndView.setViewName("/seller/ProductReviews.jsp"); 
+// Set the view to render the reviews
 			} else {
 				request.getSession().setAttribute("message", "No reviews found for this retailer.");
-				modelAndView.setViewName("redirect:/seller/ProductReviews.jsp"); // Redirect to an error page or an
-				// appropriate page
+				modelAndView.setViewName("redirect:/seller/ProductReviews.jsp"); 
+// Redirect to an error page or an
+// appropriate page
 			}
 		} catch (HttpClientErrorException e) {
 			e.printStackTrace();
 			request.getSession().setAttribute("message", "Error fetching reviews: " + e.getMessage());
-			modelAndView.setViewName("redirect:/seller/ProductReviews.jsp"); // Redirect to an error page
+			modelAndView.setViewName("redirect:/seller/ProductReviews.jsp");
+ // Redirect to an error page
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.getSession().setAttribute("message", "An unexpected error occurred.");
-			modelAndView.setViewName("redirect:/seller/ProductReviews.jsp"); // Redirect to an error page
+			modelAndView.setViewName("redirect:/seller/ProductReviews.jsp"); 
+// Redirect to an error page
 		}
 
-		return modelAndView; // Return the ModelAndView
+		return modelAndView;
+ // Return the ModelAndView
 	}
 
 	@RequestMapping("deleteReview")
@@ -334,18 +345,22 @@ public class RetailerControllerClientSide {
 				mv.setViewName("redirect:/seller/dashboard"); // Redirect to the products list page
 			} else {
 				request.getSession().setAttribute("message", "Failed to delete review: " + response.getBody());
-				mv.setViewName("redirect:/seller/dashboard"); // Redirect to the products list page
+				mv.setViewName("redirect:/seller/dashboard"); 
+// Redirect to the products list page
 			}
 		} catch (HttpClientErrorException e) {
-			e.printStackTrace(); // Consider using a logging framework
+			e.printStackTrace();
+ // Consider using a logging framework
 			request.getSession().setAttribute("message", "Error deleting review: " + e.getResponseBodyAsString());
 		} catch (Exception e) {
-			e.printStackTrace(); // Consider using a logging framework
+			e.printStackTrace(); 
+// Consider using a logging framework
 			request.getSession().setAttribute("message", "An unexpected error occurred while deleting the review.");
 		}
 
 		// Redirect back to the reviews page
-		mv.setViewName("redirect:/reviews"); // Use a named view instead
+		mv.setViewName("redirect:/reviews");
+ // Use a named view instead
 		return mv;
 	}
 
@@ -359,7 +374,8 @@ public class RetailerControllerClientSide {
 		if (retailerId == null) {
 			modelAndView.addObject("message", "Retailer ID not found in session");
 			System.out.println("Retailer ID not found in session.");
-			modelAndView.setViewName("redirect:/seller/dashboard"); // Redirect to error page
+			modelAndView.setViewName("redirect:/seller/dashboard"); 
+// Redirect to error page
 			return modelAndView;
 		}
 
@@ -390,24 +406,30 @@ public class RetailerControllerClientSide {
 
 			if (response.getStatusCode() == HttpStatus.OK) {
 				List<Order> orders = response.getBody();
-				modelAndView.addObject("orders", orders); // Pass orders to the view
-				modelAndView.setViewName("/seller/Orders.jsp"); // Name of the view template to render the orders
+				modelAndView.addObject("orders", orders); 
+// Pass orders to the view
+				modelAndView.setViewName("/seller/Orders.jsp"); 
+// Name of the view template to render the orders
 			} else {
 				request.getSession().setAttribute("message", "No orders found for this retailer.");
-				modelAndView.setViewName("redirect:/seller/dashboard"); // Redirect to an error page or an
-																			// appropriate page
+				modelAndView.setViewName("redirect:/seller/dashboard"); 
+// Redirect to an error page or an
+// appropriate page
 			}
 		} catch (HttpClientErrorException e) {
 			e.printStackTrace();
 			request.getSession().setAttribute("message", "Error fetching orders: " + e.getMessage());
-			modelAndView.setViewName("redirect:/seller/Orders.jsp"); // Redirect to an error page
+			modelAndView.setViewName("redirect:/seller/Orders.jsp");
+ // Redirect to an error page
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.getSession().setAttribute("message", "An unexpected error occurred.");
-			modelAndView.setViewName("redirect:/seller/Orders.jsp"); // Redirect to an error page
+			modelAndView.setViewName("redirect:/seller/Orders.jsp"); 
+// Redirect to an error page
 		}
 
-		return modelAndView; // Return the ModelAndView
+		return modelAndView; 
+// Return the ModelAndView
 	}
 
 	@RequestMapping("updateOrderStatus")
@@ -435,7 +457,8 @@ public class RetailerControllerClientSide {
 		String baseUrl = "http://localhost:8181/retailer/orders/" + orderId + "/status";
 
 		// Prepare the request body
-		String jsonBody = newStatus; // Adjust as needed for JSON formatting
+		String jsonBody = newStatus;
+ // Adjust as needed for JSON formatting
 
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -507,24 +530,30 @@ public class RetailerControllerClientSide {
 
 			if (response.getStatusCode() == HttpStatus.OK) {
 				List<Product> products = response.getBody();
-				modelAndView.addObject("products", products); // Pass products to the view
-				modelAndView.setViewName("seller/MyProducts.jsp"); // Use logical view name without .jsp
+				modelAndView.addObject("products", products); 
+// Pass products to the view
+				modelAndView.setViewName("seller/MyProducts.jsp"); 
+// Use logical view name without .jsp
 			} else {
 				request.getSession().setAttribute("message", "No products found for this retailer.");
-				modelAndView.setViewName("redirect:/seller/dashboard"); // Redirect to an error page or an
-																			// appropriate page
+				modelAndView.setViewName("redirect:/seller/dashboard"); 
+// Redirect to an error page or an
+// appropriate page
 			}
 		} catch (HttpClientErrorException e) {
 			e.printStackTrace();
 			request.getSession().setAttribute("message", "Error fetching products: " + e.getMessage());
-			modelAndView.setViewName("redirect:/seller/MyProducts.jsp"); // Redirect to an error page
+			modelAndView.setViewName("redirect:/seller/MyProducts.jsp"); 
+// Redirect to an error page
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.getSession().setAttribute("message", "An unexpected error occurred.");
-			modelAndView.setViewName("redirect:/seller/MyProducts.jsp"); // Redirect to an error page
+			modelAndView.setViewName("redirect:/seller/MyProducts.jsp"); 
+// Redirect to an error page
 		}
 
-		return modelAndView; // Return the ModelAndView
+		return modelAndView; 
+// Return the ModelAndView
 	}
 
 	@RequestMapping("/deleteProduct")
@@ -560,10 +589,12 @@ public class RetailerControllerClientSide {
 			// Check the response status
 			if (response.getStatusCode() == HttpStatus.OK) {
 				request.getSession().setAttribute("message", "Product deleted successfully.");
-				modelAndView.setViewName("redirect:/seller/dashboard"); // Redirect to the products list page
+				modelAndView.setViewName("redirect:/seller/dashboard"); 
+// Redirect to the products list page
 			} else {
 				request.getSession().setAttribute("message", "Failed to delete product: " + response.getBody());
-				modelAndView.setViewName("redirect:/seller/dashboard"); // Redirect to the products list page
+				modelAndView.setViewName("redirect:/seller/dashboard"); 
+// Redirect to the products list page
 			}
 		} catch (HttpClientErrorException e) {
 			e.printStackTrace();
@@ -574,7 +605,8 @@ public class RetailerControllerClientSide {
 		}
 
 		// Redirect back to the products page
-		modelAndView.setViewName("redirect:/products"); // Adjust the redirect as necessary
+		modelAndView.setViewName("redirect:/products"); 
+// Adjust the redirect as necessary
 		return modelAndView;
 	}
 
@@ -597,7 +629,8 @@ public class RetailerControllerClientSide {
 
 		// Check if retailer is in session
 		if (retailerid == null) {
-			mv.setViewName("redirect:/seller/login.jsp"); // Redirect to login page if retailer not in session
+			mv.setViewName("redirect:/seller/login.jsp"); 
+// Redirect to login page if retailer not in session
 			session.setAttribute("message", "Please log in to add a product.");
 			return mv;
 		}
@@ -749,7 +782,8 @@ public class RetailerControllerClientSide {
 			// Check response for success
 			if (response.getStatusCode() == HttpStatus.OK && responseBody.contains("Product updated successfully")) {
 				session.setAttribute("message", "Product updated successfully!");
-				mv.setViewName("redirect:/products"); // Redirect to the products list page
+				mv.setViewName("redirect:/products");
+ // Redirect to the products list page
 			} else {
 				session.setAttribute("message", "Failed to update the product. Please try again.");
 				mv.setViewName("redirect:/seller/EditProduct.jsp");
@@ -807,10 +841,13 @@ public class RetailerControllerClientSide {
 
 	@RequestMapping("logout")
 	public String logout(HttpServletRequest request) {
-		HttpSession session = request.getSession(false); // Get the current session, if it exists
+		HttpSession session = request.getSession(false); 
+// Get the current session, if it exists
 		if (session != null) {
-			session.invalidate(); // Invalidate the session
+			session.invalidate(); 
+// Invalidate the session
 		}
-		return "redirect:/seller/mainpage.jsp"; // Redirect to the main page or a logout confirmation page
+		return "redirect:/seller/mainpage.jsp";
+ // Redirect to the main page or a logout confirmation page
 	}
 }
